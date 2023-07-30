@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer friend</title>
+  <link rel="icon" type="image/x-icon" href="STARCODERS.jpg">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navigation">
+      <div class="topnav">
+        <a href="support.html" id="support">Support</a>
+        <a href="About.html" id="about">About Us</a>
+
+        <a href="index.html" id="home">Home</a>
+      </div>
+      <div class="logo">
+        <H1>Farmer Friend</H1>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <div class="quote">
+      <p><i>"A guide to grow plants according to soil quality."</i></p>
+    </div>
+    <div class="soiltest">
+      <h1>Enter your Soil Test Results</h1>
+      <div id="form-container">
+        <form method="POST" name="myForm" onsubmit="return processForm();">
+          <label for="nitrogen">Nitrogen:</label>
+          <input type="text" id="nitrogen" name="nitrogen"><br>
+
+          <label for="phosphorus">Phosphorus:</label>
+          <input type="text" id="phosphorus" name="phosphorus"><br>
+
+          <label for="potassium">Potassium:</label>
+          <input type="text" id="potassium" name="potassium"><br>
+
+          <label for="phlevel">pH Level:</label>
+          <input type="text" id="phlevel" name="phlevel"><br>
+
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+
+      <div class="result-container">
+        <table id="result-table">
+          <tr>
+            <th>Nitrogen</th>
+            <th>Phosphorous</th>
+            <th>Potassium</th>
+            <th>pH level</th>
+            <th>Soil-type</th>
+            <th>Plants</th>
+            <th>Irrigation system</th>
+          </tr>
+          <tc>
+
+            <td id="nitrogen-result"></td>
+          </tc>
+          <tc>
+
+            <td id="phosphorus-result"></td>
+          </tc>
+          <tc>
+
+            <td id="potassium-result"></td>
+          </tc>
+          <tc>
+
+            <td id="phlevel-result"></td>
+          </tc>
+          <tc>
+
+            <td id="soil-type"></td>
+          </tc>
+          <tc>
+
+            <td rowspan="5" id="plants"></td>
+          </tc>
+          <tc>
+
+            <td id="irrigation_system"></td>
+          </tc>
+        </table>
+      </div>
+    </div>
+
+    <script>
+
+      var nitrogen = localStorage.getItem("nitrogen");
+      var phosphorus = localStorage.getItem("phosphorus");
+      var potassium = localStorage.getItem("potassium");
+      var phlevel = localStorage.getItem("phlevel");
+      var soilType = localStorage.getItem("soilType");
+      var plants = localStorage.getItem("plants");
+      var irrigation = localStorage.getItem("irrigation");
+
+      document.getElementById("nitrogen-result").innerHTML = nitrogen || "";
+      document.getElementById("phosphorus-result").innerHTML = phosphorus || "";
+      document.getElementById("potassium-result").innerHTML = potassium || "";
+      document.getElementById("phlevel-result").innerHTML = phlevel || "";
+      document.getElementById("soil-type").innerHTML = soilType || "";
+      document.getElementById("plants").innerHTML = plants || "";
+      document.getElementById("irrigation_system").innerHTML = irrigation || "";
+
+      function processForm() {
+        var nitrogen = parseFloat(document.forms["myForm"]["nitrogen"].value);
+        var phosphorus = parseFloat(document.forms["myForm"]["phosphorus"].value);
+        var potassium = parseFloat(document.forms["myForm"]["potassium"].value);
+        var phlevel = parseFloat(document.forms["myForm"]["phlevel"].value);
+
+        // Check if all input values are numbers
+        if (isNaN(nitrogen) || isNaN(phosphorus) || isNaN(potassium) || isNaN(phlevel)) {
+          alert(
+            "Invalid Value Entered. Please enter a number for all fields."
+          );
+          return false;
+        }
+
+        // Determine the soil type based on the user input.
+        var soilType;
+
+        if (phlevel >= 4.5 && phlevel < 6.0) {
+          if (nitrogen >= 50 && phosphorus >= 50 && potassium >= 50) {
+            soilType = "Loam soil";
+          } 
+          else if (nitrogen < 50 && phosphorus < 50 && potassium < 50) {
+            soilType = "Sandy soil";
+          } 
+          } 
+        else if(phlevel >= 6.0 && phlevel <= 8.5){
+              if (nitrogen >= 50 && nitrogen <= 75 && phosphorus >= 50 && phosphorous <=75 && potassium >= 125) {
+            soilType = "Clay soil";
+          }
+             else if (nitrogen <= 25 && phosphorus <= 10){ 
+               if (potassium >= 75) {
+                soilType = "Alluvial soil";
+              }
+                else (potassium < 75);{
+                soilType = "Black soil";
+              }
+            }
+            else if (nitrogen >= 20 && nitrogen <= 40 && phosphorus <= 5 && potassium >= 97 && potassium <=150) {
+            soilType = "Loam soil";}
+        }
+
+        var plants;
+        if (soilType === "Loam soil") {
+          plants = "Tomatoes, carrots, beans, peas, lettuce";
+        } else if (soilType === "Sandy soil") {
+          plants = "Cactus, succulents, strawberries, watermelons";
+        } else if (soilType === "Clay soil") {
+          plants = "Lilacs, roses, zinnias, sunflowers";
+        } else if(soilType === "Black soil") {
+          plants = "wheat,groundnut,cotton";
+        }
+
+        var irrigation;
+        if (soilType === "Loam soil") {
+          irrigation = "Drip irrigation";
+        } else if (soilType === "Sandy soil") {
+          irrigation = "Sprinkler irrigation";
+        } else if (soilType === "Clay soil") {
+          irrigation = "Flood irrigation";
+        } else if(soilType === "Black soil") {
+          irrigation = "Drop irrigation";
+        }
+
+        localStorage.setItem("nitrogen", nitrogen);
+        localStorage.setItem("phosphorus", phosphorus);
+        localStorage.setItem("potassium", potassium);
+        localStorage.setItem("phlevel", phlevel);
+        localStorage.setItem("soilType", soilType);
+        localStorage.setItem("plants", plants);
+        localStorage.setItem("irrigation", irrigation);
+
+        // Display the results in the table
+        document.getElementById("nitrogen-result").innerHTML = nitrogen;
+        document.getElementById("phosphorus-result").innerHTML = phosphorus;
+        document.getElementById("potassium-result").innerHTML = potassium;
+        document.getElementById("phlevel-result").innerHTML = phlevel;
+        document.getElementById("soil-type").innerHTML = soilType;
+        document.getElementById("plants").innerHTML = plants;
+        document.getElementById("irrigation_system").innerHTML = irrigation;
+
+        return false; // prevent form submission
+      }
+    </script>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <h3>Connect with us</h3>
+      <p>Follow us on social media for more updates and tips on farming.</p>
+      <ul class="socials">
+        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <p>Farmer Friend &copy; 2023 - All rights reserved</p>
+    </div>
+  </footer>
+</body>
+
+</html>
